@@ -1,5 +1,4 @@
 import bagel.Image;
-
 import java.util.Random;
 
 public class PinkGhost extends Ghost{

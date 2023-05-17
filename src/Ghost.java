@@ -1,14 +1,8 @@
 import bagel.Image;
 import bagel.util.Point;
 
-import java.util.Random;
 
-abstract public class Ghost extends Entity{
-    public final static int RIGHT = 0;
-    public final static int DOWN = 1;
-    public final static int LEFT = 2;
-    public final static int UP = 3;
-
+abstract public class Ghost extends Entity implements Movable{
     private int orient;
     private double speed;
     private Point prevPosition;
@@ -20,7 +14,7 @@ abstract public class Ghost extends Entity{
         this.orient = orient;
         this.originalPosition = new Point(initialX, initialY);
     }
-    private void move(double xMove, double yMove){
+    public void move(double xMove, double yMove){
         prevPosition = getPosition();
         double x = getPosition().x;
         double y = getPosition().y;

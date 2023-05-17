@@ -1,12 +1,12 @@
 import bagel.*;
 import bagel.util.Point;
 
-public class Player{
+public class Player implements Movable{
     private final static String PAC = "res/pac.png";
     private final static String PAC_OPEN = "res/pacOpen.png";
     private final static Image HEART = new Image("res/heart.png");
-    private final static int MOVE_SIZE = 3;
-    private final static int FRENZY_MOVE_SIZE = 4;
+    private final static int SPEED = 3;
+    private final static int FRENZY_SPEED = 4;
     private final static int MAX_LIVES = 3;
     private final static int SWITCH_FRAME = 15;
     private final static int FONT_SIZE = 20;
@@ -28,7 +28,7 @@ public class Player{
     private int lives;
     private boolean isOpen = false;
 
-    private int moveSize;
+    private int speed;
 
     public Player(int initialX, int initialY){
         this.position = new Point(initialX, initialY);
@@ -37,7 +37,7 @@ public class Player{
         this.counter = SWITCH_FRAME;
         this.lives = MAX_LIVES;
         this.score = 0;
-        this.moveSize = MOVE_SIZE;
+        this.speed = SPEED;
     }
 
     /**
@@ -46,16 +46,16 @@ public class Player{
     public void update(Input input, ShadowPac gameObject){
         counter--;
         if (input.isDown(Keys.UP)){
-            move(0, -moveSize);
+            move(0, -speed);
             rotator.setRotation(-Math.PI/2);
         } else if (input.isDown(Keys.DOWN)){
-            move(0, moveSize);
+            move(0, speed);
             rotator.setRotation(Math.PI/2);
         } else if (input.isDown(Keys.LEFT)){
-            move(-moveSize,0);
+            move(-speed,0);
             rotator.setRotation(Math.PI);
         } else if (input.isDown(Keys.RIGHT)) {
-            move(moveSize,0);
+            move(speed,0);
             rotator.setRotation(0);
         }
         if (counter == 0) {
@@ -78,7 +78,7 @@ public class Player{
     /**
      * Method that moves the player given the direction
      */
-    private void move(double xMove, double yMove){
+    public void move(double xMove, double yMove){
         prevPosition = position;
         position = new Point(position.x + xMove, position.y + yMove);
     }
@@ -146,11 +146,15 @@ public class Player{
     }
 
     public void setFrenzyMoveSize(){
-        this.moveSize = FRENZY_MOVE_SIZE;
+        this.speed = FRENZY_SPEED;
     }
 
     public void setOriginalMoveSize(){
-        this.moveSize = MOVE_SIZE;
+        this.speed = SPEED;
+    }
+
+    public double getSpeed(){
+        return this.speed;
     }
 
 }
