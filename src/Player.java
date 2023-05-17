@@ -1,11 +1,12 @@
 import bagel.*;
 import bagel.util.Point;
 
-public class Player {
+public class Player{
     private final static String PAC = "res/pac.png";
     private final static String PAC_OPEN = "res/pacOpen.png";
     private final static Image HEART = new Image("res/heart.png");
     private final static int MOVE_SIZE = 3;
+    private final static int FRENZY_MOVE_SIZE = 4;
     private final static int MAX_LIVES = 3;
     private final static int SWITCH_FRAME = 15;
     private final static int FONT_SIZE = 20;
@@ -27,6 +28,8 @@ public class Player {
     private int lives;
     private boolean isOpen = false;
 
+    private int moveSize;
+
     public Player(int initialX, int initialY){
         this.position = new Point(initialX, initialY);
         this.startingPosition = position;
@@ -34,6 +37,7 @@ public class Player {
         this.counter = SWITCH_FRAME;
         this.lives = MAX_LIVES;
         this.score = 0;
+        this.moveSize = MOVE_SIZE;
     }
 
     /**
@@ -42,16 +46,16 @@ public class Player {
     public void update(Input input, ShadowPac gameObject){
         counter--;
         if (input.isDown(Keys.UP)){
-            move(0, -MOVE_SIZE);
+            move(0, -moveSize);
             rotator.setRotation(-Math.PI/2);
         } else if (input.isDown(Keys.DOWN)){
-            move(0, MOVE_SIZE);
+            move(0, moveSize);
             rotator.setRotation(Math.PI/2);
         } else if (input.isDown(Keys.LEFT)){
-            move(-MOVE_SIZE,0);
+            move(-moveSize,0);
             rotator.setRotation(Math.PI);
         } else if (input.isDown(Keys.RIGHT)) {
-            move(MOVE_SIZE,0);
+            move(moveSize,0);
             rotator.setRotation(0);
         }
         if (counter == 0) {
@@ -121,12 +125,12 @@ public class Player {
     /**
      * Method that checks if the player has reached the target score
      */
-    public boolean reachedScore(int target){
-        return score == target * Dot.POINTS;
+    public boolean overcomeScore(int target){
+        return score >= target;
     }
 
-    public void incrementScore() {
-        score += Dot.POINTS;
+    public void incrementScore(int points) {
+        score += points;
     }
 
     public void reduceLives() {
@@ -139,6 +143,14 @@ public class Player {
 
     public Image getCurrentImage() {
         return currentImage;
+    }
+
+    public void setFrenzyMoveSize(){
+        this.moveSize = FRENZY_MOVE_SIZE;
+    }
+
+    public void setOriginalMoveSize(){
+        this.moveSize = MOVE_SIZE;
     }
 
 }
