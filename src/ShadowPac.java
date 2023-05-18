@@ -48,7 +48,7 @@ public class ShadowPac extends AbstractGame  {
     private ArrayList<Cherry> cherries;
     private ArrayList<Ghost> ghosts;
     private ArrayList<Ghost> frenzyGhosts;
-    private Pellet pellet;
+    private ArrayList<Pellet> pellet;
     private boolean hasStarted;
     private boolean gameOver;
     private boolean playerWin;
@@ -73,8 +73,8 @@ public class ShadowPac extends AbstractGame  {
         dots = new ArrayList<>();
         cherries = new ArrayList<>();
         ghosts = new ArrayList<>();
-        frenzyGhosts = new ArrayList<>();
         walls = new ArrayList<>();
+        pellet = new ArrayList<>();
     }
 
 
@@ -119,8 +119,9 @@ public class ShadowPac extends AbstractGame  {
                     case "Cherry":
                         cherries.add(new Cherry(Integer.parseInt(sections[1]),
                                 Integer.parseInt(sections[2])));
+                        break;
                     case "Pellet":
-                        pellet = new Pellet(Integer.parseInt(sections[1]), Integer.parseInt(sections[2]));
+                        pellet.add(new Pellet(Integer.parseInt(sections[1]), Integer.parseInt(sections[2])));
                         break;
                     case "Wall":
                         walls.add(new Wall(Integer.parseInt(sections[1]), Integer.parseInt(sections[2])));
@@ -202,7 +203,9 @@ public class ShadowPac extends AbstractGame  {
                 for (Cherry current : cherries) {
                     current.update();
                 }
-                pellet.update();
+                for (Pellet current : pellet) {
+                    current.update();
+                }
             }
             if (player.isDead()){
                 gameOver = true;
@@ -249,11 +252,13 @@ public class ShadowPac extends AbstractGame  {
                 }
             }
 
-            Rectangle pelletBox = pellet.getBoundingBox();
-            if (pellet.isActive() && playerBox.intersects(pelletBox)) {
-                pellet.setActive(false);
-                isFrenzy = true;
-                frenzyActivation();
+            for (Pellet current : pellet) {
+                Rectangle pelletBox = current.getBoundingBox();
+                if (current.isActive() && playerBox.intersects(pelletBox)) {
+                    current.setActive(false);
+                    isFrenzy = true;
+                    frenzyActivation();
+                }
             }
         }
     }
@@ -310,6 +315,7 @@ public class ShadowPac extends AbstractGame  {
      * Method that activates the frenzy mode
      */
     private void frenzyActivation(){
+        frenzyGhosts = new ArrayList<>();
         frenzyFrame = 0;
         for (Ghost current: ghosts){
             if (current.getSpeed() == PINK_GHOST_SPEED) {
