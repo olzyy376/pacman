@@ -30,6 +30,9 @@ public class Player implements Movable{
 
     private int speed;
 
+    /**
+     * A constructor used to set up the starting conditions of the player
+     */
     public Player(int initialX, int initialY){
         this.position = new Point(initialX, initialY);
         this.startingPosition = position;
@@ -78,6 +81,7 @@ public class Player implements Movable{
     /**
      * Method that moves the player given the direction
      */
+    @Override
     public void move(double xMove, double yMove){
         prevPosition = position;
         position = new Point(position.x + xMove, position.y + yMove);
@@ -100,8 +104,10 @@ public class Player implements Movable{
     }
 
     /**
-     * Method that resets the player's position to the starting location
+     * A method used to reset the player to its starting position and direction
+     * when hitting by ghosts in standard mode
      */
+    @Override
     public void resetPosition(){
         position = startingPosition;
         currentImage = new Image(PAC);
@@ -111,6 +117,7 @@ public class Player implements Movable{
     /**
      * Method that prevents the player from colliding with the walls
      */
+    @Override
     public void moveBack(){
         position = prevPosition;
     }
@@ -123,12 +130,15 @@ public class Player implements Movable{
     }
 
     /**
-     * Method that checks if the player has reached the target score
+     * Method that checks if the player has overcome the target score
      */
     public boolean overcomeScore(int target){
         return score >= target;
     }
 
+    /**
+     * Method that increase the score of the player
+     */
     public void incrementScore(int points) {
         score += points;
     }
@@ -144,15 +154,24 @@ public class Player implements Movable{
     public Image getCurrentImage() {
         return currentImage;
     }
-
+    /**
+     * A method used to set the speed of the player into frenzy mode
+     */
     public void setFrenzyMoveSize(){
         this.speed = FRENZY_SPEED;
     }
-
+    /**
+     * A method used to set the speed of the player back to original
+     */
     public void setOriginalMoveSize(){
         this.speed = SPEED;
     }
 
+
+    /**
+     * A method used to get the speed of the player
+     */
+    @Override
     public double getSpeed(){
         return this.speed;
     }

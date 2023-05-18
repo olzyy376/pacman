@@ -79,7 +79,7 @@ public class ShadowPac extends AbstractGame  {
 
 
     /**
-     * Method used to read file and create objects
+     * Method used to read files and create objects
      */
     private void readLevel(String File) {
         try (BufferedReader reader = new BufferedReader(new FileReader(File))){
@@ -257,7 +257,10 @@ public class ShadowPac extends AbstractGame  {
             }
         }
     }
-
+    /**
+     * Method that checks for collisions between the player, the ghosts and the walls, and performs
+     * corresponding actions.
+     */
     private void checkGhostsCollision(ArrayList<Ghost> ghosts, Rectangle playerBox){
         for (Ghost current: ghosts){
             Rectangle ghostBox = current.getBoundingBox();
@@ -287,6 +290,9 @@ public class ShadowPac extends AbstractGame  {
         }
     }
 
+    /**
+     * Method that checks whether the player have passed the current level or not
+     */
     private void checkPlayerWin(){
         if (currentLevel == 0){
             if (player.overcomeScore(LEVEL0_WIN_SCORE)){
@@ -299,6 +305,10 @@ public class ShadowPac extends AbstractGame  {
             }
         }
     }
+
+    /**
+     * Method that activates the frenzy mode
+     */
     private void frenzyActivation(){
         frenzyFrame = 0;
         for (Ghost current: ghosts){
@@ -311,6 +321,9 @@ public class ShadowPac extends AbstractGame  {
         }
     }
 
+    /**
+     * Method that stops the frenzy mode
+     */
     private void stopFrenzy(){
         this.isFrenzy = false;
         for (Ghost current: ghosts){
