@@ -1,19 +1,25 @@
 import bagel.Image;
 import bagel.util.Point;
 
+import java.util.Random;
+
 
 abstract public class Ghost extends Entity implements Movable{
-    private final static int ORIENT_DETERMINATION_NUM = 4;
+
+    private final static int ORIENT_BOUND = 4;
+    private final static Random random = new Random();
     private int orient;
     private double speed;
     private Point prevPosition;
     private Point originalPosition;
+    private final boolean isRandomMove;
 
-    public Ghost(double initialX, double initialY, Image image, double speed, int orient) {
+    public Ghost(double initialX, double initialY, Image image, double speed, int orient, boolean isRandomMove) {
         super(initialX, initialY, image);
         this.speed = speed;
         this.orient = orient;
         this.originalPosition = new Point(initialX, initialY);
+        this.isRandomMove = isRandomMove;
     }
     public void move(double xMove, double yMove){
         prevPosition = getPosition();
@@ -45,20 +51,24 @@ abstract public class Ghost extends Entity implements Movable{
     }
 
     public void changeOrient(){
-        if (orient % 2 == 1){
-            orient = ORIENT_DETERMINATION_NUM - orient;
+        if (isRandomMove){
+            int randomOrient = random.nextInt(ORIENT_BOUND);
+            while (randomOrient == getOrient()){
+                randomOrient = random.nextInt(ORIENT_BOUND);
+            }
+            orient = randomOrient;
         }
-        else{
-            orient = (ORIENT_DETERMINATION_NUM/2) - orient;
+        else {
+            if (orient % 2 == 1) {
+                orient = ORIENT_BOUND - orient;
+            } else {
+                orient = (ORIENT_BOUND / 2) - orient;
+            }
         }
     }
 
     public int getOrient() {
         return orient;
-    }
-
-    public void setOrient(int orient) {
-        this.orient = orient;
     }
 
     public double getSpeed() {

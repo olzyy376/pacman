@@ -8,9 +8,9 @@ public class FrenzyGhost extends Ghost implements CanBeEaten{
 
     private final static int POINTS = 30;
 
-    public FrenzyGhost(Ghost ghost) {
+    public FrenzyGhost(Ghost ghost, boolean isRandomMoving) {
         super(ghost.getPosition().x, ghost.getPosition().y, FRENZY_GHOST,
-                ghost.getSpeed() - DECREASED_FRENZY_SPEED, ghost.getOrient());
+                ghost.getSpeed() - DECREASED_FRENZY_SPEED, ghost.getOrient(), isRandomMoving);
     }
 
     @Override

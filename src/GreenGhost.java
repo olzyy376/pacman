@@ -9,6 +9,6 @@ public class GreenGhost extends Ghost{
     private final static Random random = new Random();
 
     public GreenGhost(int initialX, int initialY) {
-        super(initialX, initialY, GREEN_GHOST, speed, random.nextInt(RANDOM_BOUND)+1);
+        super(initialX, initialY, GREEN_GHOST, speed, random.nextInt(RANDOM_BOUND), false);
     }
 }

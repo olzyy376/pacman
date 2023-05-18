@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Skeleton Code for SWEN20003 Project 2, Semester 1, 2023
  * Please enter your name below
- * "I write the code for project 2 based on the code from the project 1 solution"
+ * "I write the code for project 2 based on the code from the project 1 solution provided in LMS"
  * "I have also made an assumption that only one pellet will exist in level 1"
  * Yiyang Zhang
  */
@@ -41,6 +41,7 @@ public class ShadowPac extends AbstractGame  {
     private final static int LEVEL1_WIN_SCORE = 800;
     private final static int MAX_FRENZY_FRAME = 1000;
     private final static int MAX_LEVEL_COMPLETE_TIME = 300;
+    private final static double PINK_GHOST_SPEED = 3;
     private Player player;
     private ArrayList<Wall> walls;
     private ArrayList<Dot> dots;
@@ -301,7 +302,12 @@ public class ShadowPac extends AbstractGame  {
     private void frenzyActivation(){
         frenzyFrame = 0;
         for (Ghost current: ghosts){
-            frenzyGhosts.add(new FrenzyGhost(current));
+            if (current.getSpeed() == PINK_GHOST_SPEED) {
+                frenzyGhosts.add(new FrenzyGhost(current, true));
+            }
+            else{
+                frenzyGhosts.add(new FrenzyGhost(current, false));
+            }
         }
     }
 

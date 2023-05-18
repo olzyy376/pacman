@@ -5,6 +5,6 @@ public class RedGhost extends Ghost{
     private final static int ORIGINAL_ORIENT = RIGHT;
 
     public RedGhost(int initialX, int initialY, double speed) {
-        super(initialX, initialY, RED_GHOST, speed, ORIGINAL_ORIENT);
+        super(initialX, initialY, RED_GHOST, speed, ORIGINAL_ORIENT, false);
     }
 }
