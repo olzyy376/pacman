@@ -9,8 +9,8 @@ abstract public class Entity {
     private boolean isActive;
 
     public Entity(double initialX, double initialY, Image image){
-        this.position = new Point(initialX, initialY);
         this.image = image;
+        this.position = new Point(initialX, initialY);
         this.isActive = true;
     }
     public Rectangle getBoundingBox(){

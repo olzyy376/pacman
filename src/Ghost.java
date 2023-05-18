@@ -3,6 +3,7 @@ import bagel.util.Point;
 
 
 abstract public class Ghost extends Entity implements Movable{
+    private final static int ORIENT_DETERMINATION_NUM = 4;
     private int orient;
     private double speed;
     private Point prevPosition;
@@ -45,10 +46,10 @@ abstract public class Ghost extends Entity implements Movable{
 
     public void changeOrient(){
         if (orient % 2 == 1){
-            orient = 4 - orient;
+            orient = ORIENT_DETERMINATION_NUM - orient;
         }
         else{
-            orient = 2 - orient;
+            orient = (ORIENT_DETERMINATION_NUM/2) - orient;
         }
     }
 

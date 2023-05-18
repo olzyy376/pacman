@@ -270,6 +270,7 @@ public class ShadowPac extends AbstractGame  {
                 else {
                     player.reduceLives();
                     player.resetPosition();
+                    current.resetPosition();
                 }
 
             }
