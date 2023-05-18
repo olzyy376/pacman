@@ -6,7 +6,7 @@ import bagel.util.Rectangle;
  * this is an abstract class that is used to present entities (objects) in the game except for the pacman
  */
 abstract public class Entity {
-    private Image image;
+    private final Image image;
     private Point position;
 
     private boolean isActive;

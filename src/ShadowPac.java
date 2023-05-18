@@ -37,7 +37,7 @@ public class ShadowPac extends AbstractGame  {
     private final static String COMPLETE_LEVEL_MESSAGE = "LEVEL COMPLETE";
     private final Font TITLE_FONT = new Font("res/FSO8BITR.ttf", TITLE_FONT_SIZE);
     private final Font INSTRUCTION_FONT = new Font("res/FSO8BITR.ttf", INSTRUCTION_FONT_SIZE);
-    private final static int LEVEL0_WIN_SCORE = 121;
+    private final static int LEVEL0_WIN_SCORE = 1210;
     private final static int LEVEL1_WIN_SCORE = 800;
     private final static int MAX_FRENZY_FRAME = 1000;
     private final static int MAX_LEVEL_COMPLETE_TIME = 300;

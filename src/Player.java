@@ -19,7 +19,7 @@ public class Player implements Movable{
     private final Font FONT = new Font("res/FSO8BITR.ttf", FONT_SIZE);
     private final Point startingPosition;
 
-    private DrawOptions rotator = new DrawOptions();
+    private final DrawOptions rotator = new DrawOptions();
     private int counter;
     private int score;
     private Point position;
