@@ -1,6 +1,5 @@
 import bagel.Image;
 import bagel.util.Point;
-
 import java.util.Random;
 
 /**
@@ -69,6 +68,8 @@ abstract public class Ghost extends Entity implements Movable{
      */
     public void changeOrient(){
         if (isRandomMove){
+            // if the ghost needs to move randomly, when its orientation needs to be changed, assigned a random
+            // orientation to the ghost other than its current orientation
             int randomOrient = random.nextInt(ORIENT_BOUND);
             while (randomOrient == getOrient()){
                 randomOrient = random.nextInt(ORIENT_BOUND);
@@ -76,6 +77,7 @@ abstract public class Ghost extends Entity implements Movable{
             orient = randomOrient;
         }
         else {
+            // otherwise change the orientation to the opposite of its current orientation
             if (orient % 2 == 1) {
                 orient = ORIENT_BOUND - orient;
             } else {

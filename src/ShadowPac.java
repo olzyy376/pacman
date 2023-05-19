@@ -55,7 +55,7 @@ public class ShadowPac extends AbstractGame  {
     private static int currentLevel = 0;
     private boolean isFrenzy;
     private int frenzyFrame;
-    private int levelCompleteFrame;
+    private int levelCompleteFrame = 0;
 
     public ShadowPac(){
         super(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_TITLE);
@@ -68,7 +68,6 @@ public class ShadowPac extends AbstractGame  {
         gameOver = false;
         playerWin = false;
         isFrenzy = false;
-        levelCompleteFrame = 0;
 
         dots = new ArrayList<>();
         cherries = new ArrayList<>();
@@ -79,7 +78,7 @@ public class ShadowPac extends AbstractGame  {
 
 
     /**
-     * Method used to read files and create objects
+     * Method used to read files and create objects for both level 0 and level 1
      */
     private void readLevel(String File) {
         try (BufferedReader reader = new BufferedReader(new FileReader(File))){
@@ -149,15 +148,16 @@ public class ShadowPac extends AbstractGame  {
         }
         BACKGROUND_IMAGE.draw(Window.getWidth()/2.0, Window.getHeight()/2.0);
 
+        // At the start of each level, draw the start message
         if(!hasStarted){
             drawStartScreen();
             if (input.wasPressed(Keys.SPACE)){
                 hasStarted = true;
             }
-
+            // If the game ends, draw the end message
         } else if (gameOver){
             drawMessage(END_MESSAGE);
-
+            // display the level completion message based on the current level the player is in
         } else if (playerWin) {
             if (currentLevel == 1) {
                 drawMessage(WIN_MESSAGE);
@@ -176,7 +176,7 @@ public class ShadowPac extends AbstractGame  {
 
         } else {
             player.update(input, this);
-
+            // change the player and ghost into frenzy mode when pellet is eaten for 300 frames
             if (isFrenzy){
                 player.setFrenzyMoveSize();
                 frenzyFrame++;
@@ -199,6 +199,7 @@ public class ShadowPac extends AbstractGame  {
             for(Dot current: dots){
                 current.update();
             }
+            // only check the existence of cherries and pellets in level 1
             if (currentLevel == 1) {
                 for (Cherry current : cherries) {
                     current.update();
@@ -223,10 +224,10 @@ public class ShadowPac extends AbstractGame  {
                 player.getCurrentImage().getHeight());
 
         if(isFrenzy){
-            checkGhostsCollision(frenzyGhosts, playerBox);
+            GhostsCollision(frenzyGhosts, playerBox);
         }
         else{
-            checkGhostsCollision(ghosts, playerBox);
+            GhostsCollision(ghosts, playerBox);
         }
 
         for (Dot current: dots){
@@ -266,16 +267,20 @@ public class ShadowPac extends AbstractGame  {
      * Method that checks for collisions between the player, the ghosts and the walls, and performs
      * corresponding actions.
      */
-    private void checkGhostsCollision(ArrayList<Ghost> ghosts, Rectangle playerBox){
+    private void GhostsCollision(ArrayList<Ghost> ghosts, Rectangle playerBox){
         for (Ghost current: ghosts){
             Rectangle ghostBox = current.getBoundingBox();
             if (playerBox.intersects(ghostBox)){
+                // In frenzy mode, when the player hit the frenzy ghost, the player increases score by 30 and the
+                // frenzy ghost disappears from the map
                 if(isFrenzy) {
-                    if(current.isActive()) {
+                    if (current.isActive()) {
                         player.incrementScore(FRENZY_GHOST_SCORE);
                         current.setActive(false);
                     }
                 }
+                // otherwise the player will lose 1 health, and both the player and the ghost will be reset to their
+                // starting position
                 else {
                     player.reduceLives();
                     player.resetPosition();
@@ -283,6 +288,7 @@ public class ShadowPac extends AbstractGame  {
                 }
 
             }
+            // when any ghosts hit the wall, the ghost move back to its previous position and change its direction
             for (Wall theWall: walls){
                 Rectangle theWallBox = theWall.getBoundingBox();
                 if (ghostBox.intersects(theWallBox)){
@@ -317,8 +323,10 @@ public class ShadowPac extends AbstractGame  {
     private void frenzyActivation(){
         frenzyGhosts = new ArrayList<>();
         frenzyFrame = 0;
+        // At the start of the frenzy mode, convert all ghosts into frenzy ghosts
         for (Ghost current: ghosts){
             if (current.getSpeed() == PINK_GHOST_SPEED) {
+                // this is to allow the pink ghosts to move in random direction in frenzy mode
                 frenzyGhosts.add(new FrenzyGhost(current, true));
             }
             else{
@@ -332,6 +340,7 @@ public class ShadowPac extends AbstractGame  {
      */
     private void stopFrenzy(){
         this.isFrenzy = false;
+        // At the end of frenzy mode, set each ghost back to its starting position
         for (Ghost current: ghosts){
             current.resetPosition();
         }
